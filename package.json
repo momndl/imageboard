@@ -1,0 +1,24 @@
+{
+  "name": "imageboard",
+  "version": "1.0.0",
+  "description": "simple image upload app, i made on vue.js rewritten in react",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/momndl/imageboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/momndl/imageboard/issues"
+  },
+  "homepage": "https://github.com/momndl/imageboard#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
