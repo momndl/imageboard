@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/momndl/imageboard#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.1",
+    "spiced-pg": "^1.0.4"
   }
 }
