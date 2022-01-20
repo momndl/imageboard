@@ -19,9 +19,12 @@
   },
   "homepage": "https://github.com/momndl/imageboard#readme",
   "dependencies": {
+    "aws-sdk": "^2.1060.0",
     "express": "^4.17.2",
+    "multer": "^1.4.4",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
-    "spiced-pg": "^1.0.4"
+    "spiced-pg": "^1.0.4",
+    "uid-safe": "^2.1.5"
   }
 }
