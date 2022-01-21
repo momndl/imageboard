@@ -4,8 +4,8 @@ const app = express(); //Line 2
 const port = process.env.PORT || 5000; //Line 3
 const db = require("../db/db");
 const { uploader } = require("./uploads");
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
+
+app.use(express.json());
 
 // create a GET route
 app.get("/express_backend", (req, res) => {
@@ -19,15 +19,49 @@ app.get("/test", (req, res) => {
     // });
     db.test().then((data) => console.log("1", data));
     console.log("fetched");
-    res.send("fetched");
+    res.json({ dings: "fetched" });
 });
 
 app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
+    console.log("file", req.file);
+    console.log("input", req.body);
     if (req.file) {
-        console.log("upload something");
-        res.json({ success: true });
+        const { title, description, username } = req.body;
+        const { filename } = req.file;
+        const url =
+            "https://moses-imageboard.s3.eu-central-1.amazonaws.com/" +
+            filename;
+        db.setImageData(url, username, title, description).then((data) => {
+            const { rows } = data;
+            res.json(rows);
+        });
     } else {
         console.log("no upload something");
         res.json({ success: false });
     }
 });
+
+app.post("/dings", (req, res) => {
+    console.log("ja!");
+    res.json({ test: "tet1" });
+});
+// https://moses-imageboard.s3.eu-central-1.amazonaws.com/duck.jpeg
+
+app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
+
+// app.post("/upload.json", uploader.single("file"), s3.uploadS3, (req, res) => {
+//     console.log("file", req.file);
+//     console.log("input", req.body);
+//     if (req.file) {
+//         const { title, description, username } = req.body;
+//         const { filename } = req.file;
+//         const url =
+//             "https://moses-imageboard.s3.eu-central-1.amazonaws.com/" +
+//             filename;
+//         console.log("upload something");
+//         res.json({ success: true });
+//     } else {
+//         console.log("no upload something");
+//         res.json({ success: false });
+//     }
+// });

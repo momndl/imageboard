@@ -1,11 +1,23 @@
-CREATE TABLE users(
-      id SERIAL PRIMARY KEY,
-      first VARCHAR(255) NOT NULL,
-      last VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL UNIQUE,
-      password VARCHAR(255) NOT NULL,      
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
+-- DROP TABLE IF EXISTS comments;
+-- DROP TABLE IF EXISTS images;
 
-      INSERT INTO users (first, last, email, password) VALUES ('ingo', 'ingoson', 'i.ngo@what.tf', 'geheim') 
-      
+CREATE TABLE images(
+    id SERIAL PRIMARY KEY,
+    url VARCHAR NOT NULL,
+    username VARCHAR NOT NULL,
+    title VARCHAR NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE comments(
+    id SERIAL PRIMARY KEY,
+    comment VARCHAR NOT NULL,
+    username VARCHAR NOT NULL,
+    images_id INTEGER NOT NULL REFERENCES images(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT test_name
+    FOREIGN KEY(images_id) 
+    REFERENCES images(id)
+);

@@ -8,7 +8,12 @@ export default class Header extends Component {
     componentDidMount() {
         // fetch("/test").then((data) => console.log("data:", data));
     }
-
+    test() {
+        console.log("doing");
+        fetch("/upload", { method: "POST" }).then((res) =>
+            console.log("1", res)
+        );
+    }
     upload(params) {
         console.log("state", this.state);
         const fd = new FormData();
@@ -16,11 +21,12 @@ export default class Header extends Component {
         fd.append("description", this.state.description);
         fd.append("username", this.state.username);
         fd.append("file", this.state.file);
+        console.log("first", fd);
 
         fetch("/upload", { method: "POST", body: fd })
             .then((response) => response.json)
-            .then((result) => console.log(result))
-            .catch(console.log);
+            .then((result) => console.log("hi", result))
+            .catch("no", console.log);
     }
     render() {
         return (
@@ -50,11 +56,13 @@ export default class Header extends Component {
                     ></input>
                     <input
                         onChange={(e) => {
-                            this.setState({ file: e.target.value });
+                            this.setState({ file: e.target.files[0] });
                         }}
                         type={"file"}
+                        accept="image/*"
                     ></input>
                     <button onClick={() => this.upload()}>Upload!</button>
+                    <button onClick={() => this.test()}>test</button>
                 </div>
             </header>
         );

@@ -1,4 +1,4 @@
-const aws = require("aws-sdk/dist/aws-sdk-react-native");
+const aws = require("aws-sdk");
 const fs = require("fs");
 
 let secrets;
@@ -16,6 +16,7 @@ const s3 = new aws.S3({
 module.exports.uploadS3 = (req, res, next) => {
     if (!req.file) {
         // something went wrong
+        console.log("NO!");
         return res.sendStatus(500);
     } else {
         const { filename, mimetype, size, path } = req.file;
@@ -34,9 +35,11 @@ module.exports.uploadS3 = (req, res, next) => {
             .then(() => {
                 next();
                 fs.unlink(path, () => {
-                    console.log("first man on the moon");
+                    console.log(
+                        "first man on the moon, jk image deleted from uploads folder"
+                    );
                 });
             })
-            .catch(console.log);
+            .catch("err000r", console.log);
     }
 };
