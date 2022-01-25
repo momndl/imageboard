@@ -54,3 +54,11 @@ font-family: 'Qwitcher Grypen', cursive; */
     margin: 10px;
     font-size: 2em;
 }
+
+.imgDiv {
+    border: solid red 1px;
+    width: 400px;
+}
+.image {
+    height: 400px;
+}

@@ -41,11 +41,12 @@ app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
     }
 });
 
-app.post("/dings", (req, res) => {
-    console.log("ja!");
-    res.json({ test: "tet1" });
+app.get("/images", (req, res) => {
+    db.getImagesAll().then((response) => {
+        const { rows } = response;
+        res.json({ success: true, imgData: rows });
+    });
 });
-// https://moses-imageboard.s3.eu-central-1.amazonaws.com/duck.jpeg
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
 
