@@ -4,7 +4,7 @@ import Modal from "./Modal";
 export default class Images extends Component {
     constructor(props) {
         super(props);
-        this.state = { openModal: false, imgData: null };
+        this.state = { openModal: false, imgData: null, currentImg: null };
     }
 
     fetchImages = async () => {
@@ -29,18 +29,20 @@ export default class Images extends Component {
                 {this.state.openModal && (
                     <>
                         {" "}
-                        <Modal />{" "}
+                        <Modal data={this.state.currentImg} />{" "}
                     </>
                 )}
                 {!this.state.imgData && <> loading images...</>}
                 {this.state.imgData &&
-                    this.state.imgData.map((image, i) => (
-                        <div className="imgDiv" key={i}>
+                    this.state.imgData.map((image) => (
+                        <div className="imgDiv" key={image.id}>
                             <img
-                                onClick={() => {
+                                onClick={(e) => {
+                                    console.log("imgclick!", e.target);
                                     this.setState({
                                         openModal: !this.state.openModal,
                                     });
+                                    this.setState({ currentImg: image });
                                 }}
                                 className="image"
                                 alt={image.title}
