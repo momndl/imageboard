@@ -42,6 +42,11 @@ font-family: 'Qwitcher Grypen', cursive; */
 
 /* new stuff  */
 
+#header {
+    border: solid black;
+    border-width: 0 0 1px 0;
+}
+
 #header h1 {
     color: red;
     font-family: "Montserrat", sans-serif;
