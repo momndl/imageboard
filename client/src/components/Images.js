@@ -5,6 +5,7 @@ export default class Images extends Component {
     constructor(props) {
         super(props);
         this.state = { openModal: false, imgData: null, currentImg: null };
+        this.closeModal = this.closeModal.bind(this);
     }
 
     fetchImages = async () => {
@@ -17,6 +18,11 @@ export default class Images extends Component {
         }
         return body;
     };
+    closeModal() {
+        this.setState({
+            openModal: !this.state.openModal,
+        });
+    }
 
     componentDidMount() {
         this.fetchImages()
@@ -25,11 +31,14 @@ export default class Images extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="imgGrid">
                 {this.state.openModal && (
                     <>
-                        {" "}
-                        <Modal data={this.state.currentImg} />{" "}
+                        <Modal
+                            closeModal={this.closeModal}
+                            openModal={this.state.openModal}
+                            data={this.state.currentImg}
+                        />{" "}
                     </>
                 )}
                 {!this.state.imgData && <> loading images...</>}
@@ -39,12 +48,10 @@ export default class Images extends Component {
                             <img
                                 onClick={(e) => {
                                     console.log("imgclick!", e.target);
-                                    this.setState({
-                                        openModal: !this.state.openModal,
-                                    });
+                                    this.closeModal();
                                     this.setState({ currentImg: image });
                                 }}
-                                className="image"
+                                className="imagePreview"
                                 alt={image.title}
                                 src={image.url}
                             ></img>

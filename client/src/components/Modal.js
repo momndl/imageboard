@@ -2,14 +2,27 @@ import React from "react";
 
 export default function Modal(props) {
     return (
-        <div>
-            {" "}
-            i am a modal
-            <p>props.data.id: {props.data.id}</p>{" "}
-            <p>props.data.title: {props.data.title}</p>
-            <p>props.data.username: {props.data.username}</p>
-            <p>props.data.url: {props.data.url}</p>
-            <p>props.data.created_at: {props.data.created_at}</p>
+        <div
+            className="modalBg"
+            onClick={() => {
+                props.closeModal();
+                console.log("props", props);
+            }}
+        >
+            <div className="modalMain">
+                <img
+                    className="modalImg"
+                    src={props.data.url}
+                    alt={props.data.title}
+                ></img>
+                <p className="modalTitle">{props.data.title}</p>
+                <p className="modalUsername">
+                    uploaded by: {props.data.username}
+                </p>
+                <p className="modalDate">
+                    uploaded at: {props.data.created_at}
+                </p>
+            </div>
         </div>
     );
 }
