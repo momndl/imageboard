@@ -42,6 +42,10 @@ font-family: 'Qwitcher Grypen', cursive; */
 
 /* new stuff  */
 
+body {
+    box-sizing: border-box;
+}
+
 #header {
     border: solid black;
     border-width: 0 0 1px 0;
@@ -67,13 +71,33 @@ font-family: 'Qwitcher Grypen', cursive; */
 }
 
 .imgDiv {
-    border: solid red 1px;
     width: 400px;
+    height: 400px;
+    border-radius: 10px 20px 10px 20px;
+}
+
+.imgDiv:hover {
+    cursor: pointer;
 }
 .imagePreview {
     object-fit: cover;
     height: 400px;
     width: 400px;
+    border-radius: 10px 20px 10px 20px;
+}
+
+.titlePreview {
+    color: blue;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(0px);
+    transition: all, 0.2s;
+}
+
+.titlePreview.active {
+    transform: translateY(-50px);
+    color: red;
+    opacity: 1;
 }
 
 .modalBg {
@@ -90,5 +114,7 @@ font-family: 'Qwitcher Grypen', cursive; */
 }
 
 .modalImg {
-    height: ;
+    object-fit: cover;
+    height: 600px;
+    width: 600px;
 }
