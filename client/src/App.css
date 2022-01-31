@@ -92,11 +92,16 @@ body {
     opacity: 0;
     transform: translateY(0px);
     transition: all, 0.2s;
+    background-color: rgba(245, 245, 245, 0.904);
+    padding: 4px;
+    border: solid 1px darkgrey;
+    border-radius: 3px;
+    font-family: "Montserrat", sans-serif;
 }
 
 .titlePreview.active {
     transform: translateY(-50px);
-    color: red;
+    color: black;
     opacity: 1;
 }
 
@@ -108,9 +113,10 @@ body {
 }
 
 .modalMain {
-    background-color: purple;
+    background-color: white;
     border-width: solid 1px black;
-    margin: 20px;
+    padding: 20px;
+    margin: 0 250px 0 250px;
 }
 
 .modalImg {

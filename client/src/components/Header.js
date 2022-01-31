@@ -5,15 +5,8 @@ export default class Header extends Component {
         super(props);
         this.state = { title: "", username: "", description: "", file: null };
     }
-    componentDidMount() {
-        // fetch("/test").then((data) => console.log("data:", data));
-    }
-    test() {
-        console.log("doing");
-        fetch("/upload", { method: "POST" }).then((res) =>
-            console.log("1", res)
-        );
-    }
+    componentDidMount() {}
+
     upload(params) {
         console.log("state", this.state);
         const fd = new FormData();
@@ -62,7 +55,7 @@ export default class Header extends Component {
                         accept="image/*"
                     ></input>
                     <button onClick={() => this.upload()}>Upload!</button>
-                    <button onClick={() => this.test()}>test</button>
+                    {/* <button onClick={() => this.test()}>test</button> */}
                 </div>
             </header>
         );

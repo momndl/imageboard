@@ -9,7 +9,6 @@ export default class Images extends Component {
             imgData: null,
             currentImg: null,
             titlePreview: false,
-            expenden: [],
         };
         this.closeModal = this.closeModal.bind(this);
     }
@@ -17,8 +16,6 @@ export default class Images extends Component {
     fetchImages = async () => {
         const response = await fetch("/images");
         const body = await response.json();
-        console.log("respo", body);
-        console.log("success?", body.success);
         if (response.status !== 200) {
             throw Error(body.message);
         }
@@ -29,23 +26,24 @@ export default class Images extends Component {
             openModal: !this.state.openModal,
         });
     }
-    imgHoverOn = (e) => {
-        // console.log(e.currentTarget);
-        this.setState({ titlePreview: true });
-    };
-    imgHoverOf = (e) => {
-        this.setState({ titlePreview: false });
-    };
+    // imgHoverOn = (e) => {
+    //     this.setState({ titlePreview: true });
+    // };
+    // imgHoverOf = (e) => {
+    //     this.setState({ titlePreview: false });
+    // };
     componentDidMount() {
         this.fetchImages()
             .then((res) => this.setState({ imgData: res.imgData }))
             .catch((err) => console.log(err));
     }
-    testFn = (id) => {
+
+    toggleClass = (id) => {
         const selectedItem = this.state.selectedItem === id;
 
         return selectedItem ? "active" : "";
     };
+
     render() {
         return (
             <div className="imgGrid">
@@ -79,7 +77,7 @@ export default class Images extends Component {
                                 imageid={image.id}
                             ></img>
                             <p
-                                className={`titlePreview ${this.testFn(
+                                className={`titlePreview ${this.toggleClass(
                                     image.id
                                 )}`}
                             >

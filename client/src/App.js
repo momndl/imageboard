@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Header from "./components/Header";
+import ImagePreview from "./components/ImagePreview";
 import Images from "./components/Images";
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
             .then((res) => this.setState({ data: res.express }))
             .catch((err) => console.log(err));
     }
-    // fetching the GET route from the Express server which matches the GET route from server.js
+
     callBackendAPI = async () => {
         const response = await fetch("/express_backend");
         const body = await response.json();
@@ -29,8 +29,8 @@ class App extends Component {
         return (
             <div className="App">
                 <Header />
-
-                <Images />
+                <ImagePreview />
+                {/* <Images /> */}
                 <p className="App-intro">{this.state.data}</p>
             </div>
         );
