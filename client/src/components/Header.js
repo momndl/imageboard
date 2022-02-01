@@ -3,23 +3,36 @@ import React, { Component } from "react";
 export default class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { title: "", username: "", description: "", file: null };
+        this.state = { title: "", username: "", description: "", file: "" };
     }
-    componentDidMount() {}
+    componentDidMount() {
+        console.log("header mounted", this.props);
+    }
 
     upload(params) {
-        console.log("state", this.state);
-        const fd = new FormData();
-        fd.append("title", this.state.title);
-        fd.append("description", this.state.description);
-        fd.append("username", this.state.username);
-        fd.append("file", this.state.file);
-        console.log("first", fd);
+        const values = Object.values(this.state);
+        const filtered = values.filter((val) => !val);
+        if (filtered.length === 0) {
+            const fd = new FormData();
+            fd.append("title", this.state.title);
+            fd.append("description", this.state.description);
+            fd.append("username", this.state.username);
+            fd.append("file", this.state.file);
 
-        fetch("/upload", { method: "POST", body: fd })
-            .then((response) => response.json)
-            .then((result) => console.log("hi", result))
-            .catch("no", console.log);
+            fetch("/upload", { method: "POST", body: fd })
+                .then((response) => response.json())
+                .then((res) => {
+                    console.log("ressss", res);
+                    if (res.success) {
+                        console.log("upload success!");
+                        this.props.refreshFn();
+                    }
+                })
+                .catch("no", console.log);
+        } else {
+            // fill out all fields warning
+            alert("fill out everything");
+        }
     }
     render() {
         return (

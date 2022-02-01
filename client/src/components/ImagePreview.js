@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 
-export default function ImagePreview() {
+export default function ImagePreview(props) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedImg, setSelectedImg] = useState(null);
     const [imgData, setImgData] = useState(null);
     const [currentImage, setCurrentImage] = useState(null);
 
     useEffect(() => {
-        fetchImages().then((response) => setImgData(response.imgData));
-        console.log("done", imgData);
-    }, []);
+        fetchImages()
+            .then((response) => setImgData(response.imgData))
+            .then(console.log("images fetched! imgData:", imgData));
+    }, [props.refresh]);
+
+    // useEffect(() => {
+    //     console.log("props", props.imgData);
+    // }, []);
 
     async function fetchImages() {
         const response = await fetch("/images");
