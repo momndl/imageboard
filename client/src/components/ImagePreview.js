@@ -49,7 +49,10 @@ export default function ImagePreview(props) {
                 imgData.map((image) => (
                     <div className="imgDiv" key={image.id}>
                         <img
-                            onMouseEnter={() => setSelectedImg(image.id)}
+                            onMouseEnter={() => {
+                                setSelectedImg(image.id);
+                                console.log("first");
+                            }}
                             onMouseLeave={() => setSelectedImg(null)}
                             onClick={() => {
                                 modalHandler();

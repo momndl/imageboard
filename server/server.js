@@ -29,10 +29,12 @@ app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
         const url =
             "https://moses-imageboard.s3.eu-central-1.amazonaws.com/" +
             filename;
-        db.setImageData(url, username, title, description).then((data) => {
-            const { rows } = data;
-            res.json({ success: true, imgData: rows });
-        });
+        db.setImageData(url, username, title, description)
+            .then((data) => {
+                const { rows } = data;
+                res.json({ success: true, imgData: rows });
+            })
+            .catch((err) => console.log("error in upload", err));
     } else {
         console.log("no upload something");
         res.json({ success: false });

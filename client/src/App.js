@@ -3,7 +3,6 @@ import "./App.css";
 import Header from "./components/Header";
 import ImagePreview from "./components/ImagePreview";
 // import Images from "./components/Images";
-import Test from "./components/Test";
 
 class App extends Component {
     constructor(props) {
@@ -56,7 +55,6 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Test refreshFn={this.refreshFn} refresh={this.state.refresh} />
                 <Header refreshFn={this.refreshFn} />
                 <ImagePreview
                     imgData={this.state.imgData}
