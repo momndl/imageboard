@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Header extends Component {
     constructor(props) {
@@ -38,7 +39,11 @@ export default class Header extends Component {
         return (
             <header id="header">
                 <span>
-                    <h1>THE IMAGEBOARD</h1>
+                    <Link to={"/"}>
+                        {" "}
+                        <h1>THE IMAGEBOARD</h1>
+                    </Link>
+
                     <h2>upload your best stuff</h2>
                 </span>
                 <div className="fileupload">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+import { Link } from "react-router-dom";
 
 export default function ImagePreview(props) {
     const [openModal, setOpenModal] = useState(false);
@@ -26,12 +27,15 @@ export default function ImagePreview(props) {
         return body;
     }
 
-    function modalHandler(params) {
+    function modalHandler() {
         setOpenModal(!openModal);
     }
     function toggleClass(id) {
         const selectedImage = selectedImg === id;
         return selectedImage ? "active" : "";
+    }
+    function testitest(id) {
+        console.log("dings digga", id);
     }
     return (
         <div className="imgGrid">
@@ -48,21 +52,24 @@ export default function ImagePreview(props) {
             {imgData &&
                 imgData.map((image) => (
                     <div className="imgDiv" key={image.id}>
-                        <img
-                            onMouseEnter={() => {
-                                setSelectedImg(image.id);
-                                console.log("first");
-                            }}
-                            onMouseLeave={() => setSelectedImg(null)}
-                            onClick={() => {
-                                modalHandler();
-                                setCurrentImage(image);
-                            }}
-                            className="imagePreview"
-                            alt={image.title}
-                            src={image.url}
-                            imageid={image.id}
-                        ></img>
+                        <Link to={`/image/${image.id}`}>
+                            <img
+                                onMouseEnter={() => {
+                                    setSelectedImg(image.id);
+                                    console.log("first");
+                                }}
+                                onMouseLeave={() => setSelectedImg(null)}
+                                onClick={() => {
+                                    testitest(image.id);
+                                    modalHandler();
+                                    setCurrentImage(image);
+                                }}
+                                className="imagePreview"
+                                alt={image.title}
+                                src={image.url}
+                                imageid={image.id}
+                            />
+                        </Link>
                         <p className={`titlePreview ${toggleClass(image.id)}`}>
                             {image.title}
                         </p>

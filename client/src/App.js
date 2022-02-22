@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import ImagePreview from "./components/ImagePreview";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ImageFocus from "./components/ImageFocus";
 // import Images from "./components/Images";
 
 class App extends Component {
@@ -11,6 +13,7 @@ class App extends Component {
             data: null,
             imgData: null,
             refresh: false,
+            highestId: 0,
         };
         this.refreshFn = this.refreshFn.bind(this);
     }
@@ -24,13 +27,12 @@ class App extends Component {
             .then((res) => this.setState({ data: res.express }))
             .catch((err) => console.log(err));
         this.fetchImages()
-            .then((response) => this.setState({ imgData: response.imgData }))
-            .then(
-                console.log(
-                    "images fetched from app! imgData:",
-                    this.state.imgData
-                )
-            );
+            .then((response) => {
+                console.log("response", response.imgData);
+                this.setState({ imgData: response.imgData });
+                this.setState({ highestId: response.imgData[0].id });
+            })
+            .catch((err) => console.log("err", err));
     }
 
     fetchImages = async () => {
@@ -54,15 +56,26 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <BrowserRouter>
                 <Header refreshFn={this.refreshFn} />
-                <ImagePreview
-                    imgData={this.state.imgData}
-                    refresh={this.state.refresh}
-                />
-
-                <p className="App-intro">{this.state.data}</p>
-            </div>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <ImagePreview
+                                imgData={this.state.imgData}
+                                refresh={this.state.refresh}
+                            />
+                        }
+                    ></Route>
+                    <Route
+                        path="/image/:imageId"
+                        element={
+                            <ImageFocus highestId={this.state.highestId} />
+                        }
+                    ></Route>
+                </Routes>
+            </BrowserRouter>
         );
     }
 }

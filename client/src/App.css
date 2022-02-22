@@ -51,6 +51,14 @@ body {
     border-width: 0 0 1px 0;
     padding-bottom: 5px;
     margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+}
+#header a {
+    text-decoration: none;
 }
 
 #header h1 {
@@ -64,6 +72,7 @@ body {
     font-family: "Qwitcher Grypen", cursive;
     margin: 10px;
     font-size: 2em;
+    text-align: center;
 }
 
 .imgGrid {
@@ -117,11 +126,13 @@ body {
 
 .modalMain {
     background-color: white;
-    border-width: solid 1px black;
     padding: 20px;
     margin: 0 250px 0 250px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
 }
-
 .modalImg {
     object-fit: cover;
     height: 600px;

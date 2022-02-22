@@ -35,7 +35,7 @@ INSERT into images (url, username, title, description) VALUES ($1,$2,$3,$4) RETU
 module.exports.getImageDataById = (id) => {
     return db.query(
         `
-        SELECT * FROM images WHERE id = ($1)
+        SELECT id, url, username, title, description, TO_CHAR(created_at, 'HH24:MI DD.MM.YY') AS posted FROM images WHERE id = ($1)
     `,
         [id]
     );

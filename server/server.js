@@ -1,24 +1,15 @@
 const s3 = require("./s3");
-const express = require("express"); //Line 1
-const app = express(); //Line 2
-const port = process.env.PORT || 5000; //Line 3
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 5000;
 const db = require("../db/db");
 const { uploader } = require("./uploads");
 
 app.use(express.json());
 
-// create a GET route
 app.get("/express_backend", (req, res) => {
-    //Line 9
     res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" }); //Line 10
-}); //Line 11
-
-// app.get("/test", (req, res) => {
-
-//     db.test().then((data) => console.log("1", data));
-//     console.log("fetched");
-//     res.json({ dings: "fetched" });
-// });
+});
 
 app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
     console.log("file", req.file);
@@ -46,6 +37,20 @@ app.get("/images", (req, res) => {
         const { rows } = response;
         res.json({ success: true, imgData: rows });
     });
+});
+
+app.get("/image/:id.json", (req, res) => {
+    const { id } = req.params;
+    console.log("this i want to see", id);
+    db.getImageDataById(id)
+        .then((respose) => {
+            const { rows } = respose;
+            res.json({ success: true, imageData: rows });
+        })
+        .catch((error) => {
+            console.log("error in image at  /image/:id.json", error);
+            res.json({ success: false });
+        });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
