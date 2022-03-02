@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import ImagePreview from "./components/ImagePreview";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ImageFocus from "./components/ImageFocus";
+import HeaderF from "./components/HeaderF";
 // import Images from "./components/Images";
 
 class App extends Component {
@@ -55,28 +56,7 @@ class App extends Component {
     };
 
     render() {
-        return (
-            <BrowserRouter>
-                <Header refreshFn={this.refreshFn} />
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <ImagePreview
-                                imgData={this.state.imgData}
-                                refresh={this.state.refresh}
-                            />
-                        }
-                    ></Route>
-                    <Route
-                        path="/image/:imageId"
-                        element={
-                            <ImageFocus highestId={this.state.highestId} />
-                        }
-                    ></Route>
-                </Routes>
-            </BrowserRouter>
-        );
+        return <div>nice</div>;
     }
 }
 

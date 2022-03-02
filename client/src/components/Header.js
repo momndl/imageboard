@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default class Header extends Component {
@@ -6,6 +6,7 @@ export default class Header extends Component {
         super(props);
         this.state = { title: "", username: "", description: "", file: "" };
     }
+
     componentDidMount() {
         console.log("header mounted", this.props);
     }
@@ -19,17 +20,23 @@ export default class Header extends Component {
             fd.append("description", this.state.description);
             fd.append("username", this.state.username);
             fd.append("file", this.state.file);
+            console.log("state", this.state);
+            fetch("/upload", {
+                method: "POST",
 
-            fetch("/upload", { method: "POST", body: fd })
+                body: fd,
+            })
                 .then((response) => response.json())
                 .then((res) => {
                     console.log("ressss", res);
                     if (res.success) {
                         console.log("upload success!");
                         this.props.refreshFn();
+                    } else {
+                        console.log("upload failure");
                     }
                 })
-                .catch("no", console.log);
+                .catch((err) => console.log(err));
         } else {
             // fill out all fields warning
             alert("fill out everything");

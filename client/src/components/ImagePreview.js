@@ -1,31 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { Link } from "react-router-dom";
 
 export default function ImagePreview(props) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedImg, setSelectedImg] = useState(null);
-    const [imgData, setImgData] = useState(null);
     const [currentImage, setCurrentImage] = useState(null);
-
-    useEffect(() => {
-        fetchImages()
-            .then((response) => setImgData(response.imgData))
-            .then(console.log("images fetched! imgData:", imgData));
-    }, [props.refresh]);
-
-    // useEffect(() => {
-    //     console.log("props", props.imgData);
-    // }, []);
-
-    async function fetchImages() {
-        const response = await fetch("/images");
-        const body = await response.json();
-        if (response.status !== 200) {
-            throw Error(body.message);
-        }
-        return body;
-    }
 
     function modalHandler() {
         setOpenModal(!openModal);
@@ -34,33 +13,52 @@ export default function ImagePreview(props) {
         const selectedImage = selectedImg === id;
         return selectedImage ? "active" : "";
     }
-    function testitest(id) {
-        console.log("dings digga", id);
-    }
+
+    const currentImageHandler = (prevornext, id) => {
+        if (prevornext === "prev") {
+            if (id === props.lowestId) {
+                return;
+            } else {
+                const prevImg = props.imgData.data.filter(
+                    (image) => image.id == id - 1
+                );
+                setCurrentImage(prevImg[0]);
+            }
+        } else if (prevornext === "next") {
+            if (id === props.highestId) {
+                return;
+            } else {
+                const nextImg = props.imgData.data.filter(
+                    (image) => image.id == id + 1
+                );
+                setCurrentImage(nextImg[0]);
+            }
+        }
+    };
+
     return (
-        <div className="imgGrid">
+        <main className="imgPreview">
             {openModal && (
-                <>
-                    <Modal
-                        closeModal={modalHandler}
-                        openModal={openModal}
-                        data={currentImage}
-                    />{" "}
-                </>
+                <Modal
+                    currentImageHandler={currentImageHandler}
+                    closeModal={modalHandler}
+                    openModal={openModal}
+                    data={currentImage}
+                    lowestId={props.lowestId}
+                    highestId={props.highestId}
+                />
             )}
-            {!imgData && <div> loading images...</div>}
-            {imgData &&
-                imgData.map((image) => (
-                    <div className="imgDiv" key={image.id}>
-                        <Link to={`/image/${image.id}`}>
+            <div className="imgGrid">
+                {!props.imgData.data && <div> loading images...</div>}
+                {props.imgData.data &&
+                    props.imgData.data.map((image) => (
+                        <div className="imgDiv" key={image.id}>
                             <img
                                 onMouseEnter={() => {
                                     setSelectedImg(image.id);
-                                    console.log("first");
                                 }}
                                 onMouseLeave={() => setSelectedImg(null)}
                                 onClick={() => {
-                                    testitest(image.id);
                                     modalHandler();
                                     setCurrentImage(image);
                                 }}
@@ -69,12 +67,26 @@ export default function ImagePreview(props) {
                                 src={image.url}
                                 imageid={image.id}
                             />
-                        </Link>
-                        <p className={`titlePreview ${toggleClass(image.id)}`}>
-                            {image.title}
-                        </p>
-                    </div>
-                ))}
-        </div>
+                            <p
+                                className={`titlePreview ${toggleClass(
+                                    image.id
+                                )}`}
+                            >
+                                {image.title}
+                            </p>
+                        </div>
+                    ))}
+            </div>
+            {props.lowestId === 1 ? (
+                ""
+            ) : (
+                <button
+                    className="moreBtn"
+                    onClick={() => props.buttonHandler(props.lowestId)}
+                >
+                    show more!
+                </button>
+            )}
+        </main>
     );
 }

@@ -12,11 +12,18 @@ app.get("/express_backend", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
-    console.log("file", req.file);
-    console.log("input", req.body);
     if (req.file) {
         const { title, description, username } = req.body;
         const { filename } = req.file;
+        console.log(
+            "title ",
+            title,
+            "| description ",
+            description,
+            "| username ",
+            username
+        );
+        console.log("filename ", filename);
         const url =
             "https://moses-imageboard.s3.eu-central-1.amazonaws.com/" +
             filename;
@@ -27,7 +34,6 @@ app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
             })
             .catch((err) => console.log("error in upload", err));
     } else {
-        console.log("no upload something");
         res.json({ success: false });
     }
 });
@@ -41,7 +47,7 @@ app.get("/images", (req, res) => {
 
 app.get("/image/:id.json", (req, res) => {
     const { id } = req.params;
-    console.log("this i want to see", id);
+
     db.getImageDataById(id)
         .then((respose) => {
             const { rows } = respose;
@@ -53,4 +59,45 @@ app.get("/image/:id.json", (req, res) => {
         });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
+app.get("/image/comments/:id.json", (req, res) => {
+    const { id } = req.params;
+
+    db.getComments(id)
+        .then((respose) => {
+            const { rows } = respose;
+            res.json({ success: true, commentData: rows });
+        })
+        .catch((error) => {
+            console.log(
+                "error in comments at  /image/comments/:id.json ",
+                error
+            );
+            res.json({ success: false });
+        });
+});
+
+app.post("/addcomment", (req, res) => {
+    const { username, comment, id } = req.body;
+    console.log("input", username, comment, id);
+    db.setCommentData(id, username, comment)
+        .then((data) => {
+            const { rows } = data;
+            res.json({ success: true, commentData: rows });
+        })
+        .catch((err) => console.log("error in upload", err));
+});
+
+app.get("/moreimages/:id.json", (req, res) => {
+    const { id } = req.params;
+    db.getMore(id)
+        .then((respose) => {
+            const { rows } = respose;
+            res.json({ success: true, data: rows });
+        })
+        .catch((error) => {
+            console.log("error in moreimages at  /moreimages/:id.json ", error);
+            res.json({ success: false });
+        });
+});
+
+app.listen(port, () => console.log(`Listening on port ${port}`));

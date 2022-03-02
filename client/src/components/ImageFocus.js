@@ -1,18 +1,18 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Comments from "./Comments";
 
 export default function ImageFocus(props) {
     const { imageId } = useParams();
     const [imageData, setImageData] = useState(null);
+    const [showComments, setShowComments] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const highestId = props.highestId;
     useEffect(() => {
-        console.log("navigate:", navigate);
         fetch(`${imageId}.json`)
             .then((res) => res.json())
             .then((imageRes) => {
-                console.log("data after fetch focus: ", imageRes);
                 setImageData(imageRes);
             })
             .catch((err) => console.log(err));
@@ -36,17 +36,34 @@ export default function ImageFocus(props) {
         <div
             className="modalBg"
             onClick={() => {
-                console.log("reactivate me pls");
                 // navigate(-1);
             }}
         >
             {imageData ? (
                 <div className="modalMain">
-                    <img
-                        className="modalImg"
-                        src={imageData.imageData[0].url}
-                        alt={imageData.imageData[0].title}
-                    ></img>
+                    <div className="imgAndButtons">
+                        <span
+                            className="prevBtn"
+                            onClick={() =>
+                                prevNext("prev", imageData.imageData[0].id)
+                            }
+                        >
+                            prev
+                        </span>
+                        <img
+                            className="modalImg"
+                            src={imageData.imageData[0].url}
+                            alt={imageData.imageData[0].title}
+                        />
+                        <span
+                            className="prevBtn"
+                            onClick={() =>
+                                prevNext("next", imageData.imageData[0].id)
+                            }
+                        >
+                            next
+                        </span>
+                    </div>
                     <p className="modalTitle">{imageData.imageData[0].title}</p>
                     <p className="modalDescription">
                         {imageData.imageData[0].description}
@@ -57,21 +74,27 @@ export default function ImageFocus(props) {
                     <p className="modalDate">
                         uploaded at: {imageData.imageData[0].posted}
                     </p>
-                    <span className="modalDeleteImage">Delete</span>
-                    <span
-                        onClick={() =>
-                            prevNext("prev", imageData.imageData[0].id)
-                        }
-                    >
-                        prev
-                    </span>{" "}
-                    <span
-                        onClick={() =>
-                            prevNext("next", imageData.imageData[0].id)
-                        }
-                    >
-                        next
-                    </span>
+                    <span className="modalDeleteImage">Delete</span>{" "}
+                    {showComments ? (
+                        <div>
+                            <button
+                                onClick={() => {
+                                    setShowComments(!showComments);
+                                }}
+                            >
+                                close
+                            </button>
+                            <Comments id={imageData.imageData[0].id} />{" "}
+                        </div>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                setShowComments(!showComments);
+                            }}
+                        >
+                            comments
+                        </button>
+                    )}
                 </div>
             ) : (
                 <div>
