@@ -59,7 +59,7 @@ app.get("/image/:id.json", (req, res) => {
         });
 });
 
-app.get("/image/comments/:id.json", (req, res) => {
+app.get("/comments/:id.json", (req, res) => {
     const { id } = req.params;
 
     db.getComments(id)

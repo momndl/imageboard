@@ -24,6 +24,11 @@ export default function Comments(props) {
                     success: resComments.success,
                     entries: resComments.commentData,
                 });
+                setNewComment({
+                    username: "",
+                    comment: "",
+                    id: imageId,
+                });
             })
             .catch((err) => console.log(err));
     }, [imageId, comments.latestComment]);
