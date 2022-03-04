@@ -7,23 +7,10 @@ const { uploader } = require("./uploads");
 
 app.use(express.json());
 
-app.get("/express_backend", (req, res) => {
-    res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" }); //Line 10
-});
-
 app.post("/upload", uploader.single("file"), s3.uploadS3, (req, res) => {
     if (req.file) {
         const { title, description, username } = req.body;
         const { filename } = req.file;
-        console.log(
-            "title ",
-            title,
-            "| description ",
-            description,
-            "| username ",
-            username
-        );
-        console.log("filename ", filename);
         const url =
             "https://moses-imageboard.s3.eu-central-1.amazonaws.com/" +
             filename;
@@ -78,13 +65,18 @@ app.get("/comments/:id.json", (req, res) => {
 
 app.post("/addcomment", (req, res) => {
     const { username, comment, id } = req.body;
-    console.log("input", username, comment, id);
+
     db.setCommentData(id, username, comment)
         .then((data) => {
             const { rows } = data;
             res.json({ success: true, commentData: rows });
         })
         .catch((err) => console.log("error in upload", err));
+});
+
+app.get("/delete/:id.json", (req, res) => {
+    const { id } = req.params;
+    res.json({ myMessage: "success!, implemented in sql soon" });
 });
 
 app.get("/moreimages/:id.json", (req, res) => {

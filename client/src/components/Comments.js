@@ -18,7 +18,6 @@ export default function Comments(props) {
         fetch(`comments/${imageId}.json`)
             .then((res) => res.json())
             .then((resComments) => {
-                console.log("comments", resComments);
                 setComments({
                     ...comments,
                     success: resComments.success,
@@ -51,7 +50,6 @@ export default function Comments(props) {
 
     return (
         <div className="commentContainer">
-            Comments
             <div>
                 <input
                     ref={usernameRef}
@@ -105,7 +103,7 @@ export default function Comments(props) {
             ) : (
                 comments.entries.map((comment) => (
                     <p key={comment.comment_id}>
-                        {comment.comment} -- {comment.username} --{" "}
+                        <span>{comment.username}</span> : {comment.comment} |{" "}
                         {comment.posted}
                     </p>
                 ))

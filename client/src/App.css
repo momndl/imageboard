@@ -1,3 +1,7 @@
+html {
+    font-size: 62.5%;
+}
+
 body {
     box-sizing: border-box;
 }
@@ -20,14 +24,15 @@ body {
 #header h1 {
     color: red;
     font-family: "Montserrat", sans-serif;
-    margin: 10px;
+    margin: 0px;
+    font-size: 4.5rem;
 }
 
 #header h2 {
     color: black;
     font-family: "Qwitcher Grypen", cursive;
-    margin: 10px;
-    font-size: 2em;
+    font-size: 3.8rem;
+    margin: 0 0 5px 0;
     text-align: center;
 }
 
@@ -41,10 +46,29 @@ body {
     background-color: rgba(199, 198, 197, 0.651);
 }
 
+#header button {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.736);
+    font-weight: 400;
+    font-family: Helvetica, "sans-serif";
+    transition: all 0.5s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: rgba(255, 0, 0, 0.705);
+    border: 1px solid transparent;
+    font-size: 1.5rem;
+}
+
+#header button:hover {
+    box-shadow: inset red 20px 0px 20px 20px;
+    color: black;
+}
+
 .imgGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(430px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(430px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(430px, 1fr));
+    justify-items: center;
 }
 
 .imgDiv {
@@ -65,20 +89,28 @@ body {
 }
 
 .titlePreview {
-    color: blue;
+    cursor: default;
+    color: red;
     margin: 0;
     opacity: 0;
-    transform: translateY(0px);
-    transition: all, 0.2s;
+    transform: translateY(-30px);
+    transition: all, 0.3s;
     background-color: rgba(245, 245, 245, 0.904);
     padding: 4px;
     border: solid 1px darkgrey;
     border-radius: 3px;
     font-family: "Montserrat", sans-serif;
+    font-size: 1.8rem;
 }
 
 .titlePreview.active {
-    transform: translateY(-50px);
+    transform: translateY(-80px);
+    color: black;
+    opacity: 1;
+}
+
+.titlePreview:hover {
+    transform: translateY(-80px);
     color: black;
     opacity: 1;
 }
@@ -88,9 +120,11 @@ body {
     background-color: rgba(128, 128, 128, 0.905);
     height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
 .modalMain {
+    position: relative;
     background-color: white;
     padding: 20px;
     margin: 0 250px 0 250px;
@@ -101,21 +135,105 @@ body {
 }
 .modalImg {
     object-fit: cover;
-    height: 600px;
-    width: 600px;
+    height: 700px;
+    width: 700px;
 }
 
 .modalTitle {
     font-weight: bold;
     margin-bottom: 2px;
+    font-size: 2.2rem;
 }
 
 .modalDescription {
     margin-top: 2px;
     font-style: italic;
+    font-size: 2rem;
+}
+
+.modalUsername {
+    font-size: 1.6rem;
+    color: red;
+    margin: 0;
+    align-self: end;
+}
+
+.modalUsername > span {
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+.modalDeleteImage {
+    font-size: 1.6rem;
+    align-self: end;
+    color: purple;
+}
+
+.commentBtn {
+    opacity: 0.5;
+    color: red;
+    font-size: 1.6rem;
+}
+
+.commentBtn.activeBtn {
+    color: green;
+    opacity: 1;
+}
+
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.commentContainer p {
+    color: black;
+    align-self: start;
+    margin: 4px;
+    font-size: 1.6rem;
+}
+
+.commentContainer p > span {
+    font-weight: bold;
+}
+
+.commentContainer input {
+    padding: 2px;
+    margin: 3px;
+    border-radius: 5px;
+    border: solid 1px black;
+    font-size: 1.6rem;
+}
+
+.commentContainer input:focus {
+    background-color: rgba(199, 198, 197, 0.651);
+}
+
+.commentWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.showCommentsBtn {
+    cursor: pointer;
+    font-weight: 400;
+    font-family: Helvetica, "sans-serif";
+    transition: all 0.5s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: rgba(255, 0, 0, 0.705);
+    border: 1px solid transparent;
+    font-size: 1.6rem;
+    align-self: end;
+}
+
+.showCommentsBtn:hover {
+    box-shadow: inset red 20px 0px 20px 20px;
 }
 
 .prevBtn {
+    font-size: 1.6rem;
     cursor: pointer;
     border: solid 1px black;
     border-radius: 50%;
@@ -126,6 +244,7 @@ body {
 
 .prevBtn:hover {
     background-color: rgb(211, 210, 210);
+    text-decoration: underline;
 }
 
 .imgAndButtons {
@@ -135,21 +254,60 @@ body {
     flex-wrap: nowrap;
 }
 
-.commentContainer {
-    border: solid limegreen 1px;
-}
-
-.commentBtn {
-    opacity: 0.5;
-    color: red;
-}
-
-.commentBtn.activeBtn {
-    color: green;
-    opacity: 1;
-}
-
 .moreBtn {
     display: inline-block;
     height: 100px;
+}
+
+.closeX {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.8rem;
+    width: 28px;
+    height: 28px;
+    border: solid black 1px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 4px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all, 0.2s;
+}
+
+.closeX:hover {
+    font-weight: bold;
+    background-color: rgb(211, 210, 210);
+}
+
+.newMoreBtn {
+    cursor: pointer;
+    font-weight: 700;
+    font-family: Helvetica, "sans-serif";
+    transition: all 0.2s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: rgba(255, 0, 0, 0.705);
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 10px;
+}
+
+.newMoreBtn:hover {
+    background-color: red;
+}
+
+.newMoreBtn > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.newMoreBtn:hover svg {
+    transform: translateX(5px);
 }

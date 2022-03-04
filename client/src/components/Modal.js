@@ -2,17 +2,33 @@ import React, { useEffect, useState } from "react";
 import Comments from "./Comments";
 
 export default function Modal(props) {
-    const [imgData, setImgData] = useState(null);
     const [showComments, setShowComments] = useState(false);
+    const [commentCount, setCommentCount] = useState(0);
+    useEffect(() => {
+        fetch(`comments/${props.data.id}.json`)
+            .then((res) => res.json())
+            .then((resComments) => {
+                setCommentCount(resComments.commentData.length);
+            })
+            .catch((err) => console.log(err));
+    }, [props.data.id]);
 
     function deleteImage(id) {
-        fetch("/delete")
+        fetch(`/delete/${id}.json`)
             .then((res) => res.json())
             .then((data) => console.log("data after fetch delete", data));
     }
     return (
         <div className="modalBg">
             <div className="modalMain">
+                <span
+                    className="closeX"
+                    onClick={() => {
+                        props.closeModal();
+                    }}
+                >
+                    x
+                </span>
                 <div className="imgAndButtons">
                     <span
                         className="prevBtn"
@@ -40,13 +56,18 @@ export default function Modal(props) {
                 <p className="modalTitle">{props.data.title}</p>
                 <p className="modalDescription">{props.data.description}</p>
                 <p className="modalUsername">
-                    uploaded by: {props.data.username}
+                    <span>{props.data.username} </span> {props.data.posted}
                 </p>
-                <p className="modalDate">uploaded at: {props.data.posted}</p>
-                <span className="modalDeleteImage">Delete</span>
+                {/* <span
+                    onClick={() => deleteImage(props.data.id)}
+                    className="modalDeleteImage"
+                >
+                    Delete
+                </span> */}
                 {showComments ? (
-                    <div>
+                    <div className="commentWrapper">
                         <button
+                            className="showCommentsBtn"
                             onClick={() => {
                                 setShowComments(!showComments);
                             }}
@@ -57,11 +78,12 @@ export default function Modal(props) {
                     </div>
                 ) : (
                     <button
+                        className="showCommentsBtn"
                         onClick={() => {
                             setShowComments(!showComments);
                         }}
                     >
-                        comments
+                        comments {commentCount === 0 ? "" : `(${commentCount})`}
                     </button>
                 )}
             </div>

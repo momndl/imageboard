@@ -14,7 +14,6 @@ export default function HeaderF(props) {
         file: "",
     });
     useEffect(() => {
-        console.log("useEffectRunnin");
         usernameRef.current.value = "";
         titleRef.current.value = "";
         descriptionRef.current.value = "";
