@@ -30,8 +30,7 @@ export default function AppF() {
         if (response.status !== 200) {
             throw Error(body.message);
         }
-        console.log("btnHndlr", body);
-        console.log("body.data", body.data);
+
         const moreObj = { ...imgData };
         body.data.forEach((element) => {
             moreObj.data.push(element);
@@ -47,34 +46,18 @@ export default function AppF() {
                     setImgData({ data: response.imgData });
                 } else {
                     setImgData({ ...imgData, data: response.imgData });
-                    // const obj = { ...imgData };
-                    // const obj2 = { ...imgData };
-                    // console.log("obj2 ", obj2);
-                    // obj2.data.unshift({ nice: "one" });
-                    // console.log("obj ", obj);
-                    // console.log("obj2 - later ", obj2);
-                    // setImgData(obj2)
                 }
                 setHighestId(response.imgData[0].id);
                 setLowestId(response.imgData[response.imgData.length - 1].id);
             })
             .catch((err) => console.log("err", err));
 
-        return () => {
-            console.log("App cleanup runnin");
-        };
+        return () => {};
     }, [refresh]);
 
     return (
         <BrowserRouter>
             <HeaderF refreshFn={refreshFn} />
-            <div
-                onClick={() => {
-                    refreshFn();
-                }}
-            >
-                hello
-            </div>
             <Routes>
                 <Route
                     path="/"

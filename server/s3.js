@@ -3,9 +3,9 @@ const fs = require("fs");
 
 let secrets;
 if (process.env.NODE_ENV == "production") {
-    secrets = process.env; // in prod the secrets are environment variables
+    secrets = process.env;
 } else {
-    secrets = require("../secrets.json"); // in dev they are in secrets.json which is listed in .gitignore
+    secrets = require("../secrets.json");
 }
 
 const s3 = new aws.S3({
@@ -15,8 +15,6 @@ const s3 = new aws.S3({
 
 module.exports.uploadS3 = (req, res, next) => {
     if (!req.file) {
-        // something went wrong
-        console.log("NO!");
         return res.sendStatus(500);
     } else {
         const { filename, mimetype, size, path } = req.file;
@@ -34,12 +32,8 @@ module.exports.uploadS3 = (req, res, next) => {
         promise
             .then(() => {
                 next();
-                fs.unlink(path, () => {
-                    console.log(
-                        "first man on the moon, jk image deleted from uploads folder"
-                    );
-                });
+                fs.unlink(path, () => {});
             })
-            .catch("err000r", console.log);
+            .catch((err) => console.log("error in s3.js: ", err));
     }
 };

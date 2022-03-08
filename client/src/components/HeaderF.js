@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 export default function HeaderF(props) {
     const titleRef = useRef(null);
@@ -52,17 +51,20 @@ export default function HeaderF(props) {
                 .catch((err) => console.log(err));
         } else {
             // fill out all fields warning
-            alert("fill out everything");
+            alert("fill out all fields please");
         }
     };
     return (
         <header id="header">
             <span>
-                <Link to={"/"}>
-                    {" "}
-                    <h1>THE IMAGEBOARD</h1>
-                </Link>
-
+                {" "}
+                <h1
+                    onClick={() => {
+                        window.history.go("/");
+                    }}
+                >
+                    THE IMAGEBOARD
+                </h1>
                 <h2>upload your best stuff</h2>
             </span>
             <div className="fileupload">

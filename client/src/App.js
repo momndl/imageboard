@@ -1,63 +1,65 @@
-import React, { Component } from "react";
-import "./App.css";
-import Header from "./components/Header";
-import ImagePreview from "./components/ImagePreview";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ImageFocus from "./components/ImageFocus";
-import HeaderF from "./components/HeaderF";
-// import Images from "./components/Images";
+// OLD -> changed into function component AppF.js
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: null,
-            imgData: null,
-            refresh: false,
-            highestId: 0,
-        };
-        this.refreshFn = this.refreshFn.bind(this);
-    }
+//import React, { Component } from "react";
+// import "./App.css";
+// import Header from "./components/Header";
+// import ImagePreview from "./components/ImagePreview";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import ImageFocus from "./components/ImageFocus";
+// import HeaderF from "./components/HeaderF";
+// // import Images from "./components/Images";
 
-    refreshFn() {
-        this.setState({ refresh: !this.state.refresh });
-    }
+// class App extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             data: null,
+//             imgData: null,
+//             refresh: false,
+//             highestId: 0,
+//         };
+//         this.refreshFn = this.refreshFn.bind(this);
+//     }
 
-    componentDidMount() {
-        this.callBackendAPI()
-            .then((res) => this.setState({ data: res.express }))
-            .catch((err) => console.log(err));
-        this.fetchImages()
-            .then((response) => {
-                console.log("response", response.imgData);
-                this.setState({ imgData: response.imgData });
-                this.setState({ highestId: response.imgData[0].id });
-            })
-            .catch((err) => console.log("err", err));
-    }
+//     refreshFn() {
+//         this.setState({ refresh: !this.state.refresh });
+//     }
 
-    fetchImages = async () => {
-        const response = await fetch("/images");
-        const body = await response.json();
-        if (response.status !== 200) {
-            throw Error(body.message);
-        }
-        return body;
-    };
+//     componentDidMount() {
+//         this.callBackendAPI()
+//             .then((res) => this.setState({ data: res.express }))
+//             .catch((err) => console.log(err));
+//         this.fetchImages()
+//             .then((response) => {
+//                 console.log("response", response.imgData);
+//                 this.setState({ imgData: response.imgData });
+//                 this.setState({ highestId: response.imgData[0].id });
+//             })
+//             .catch((err) => console.log("err", err));
+//     }
 
-    callBackendAPI = async () => {
-        const response = await fetch("/express_backend");
-        const body = await response.json();
+//     fetchImages = async () => {
+//         const response = await fetch("/images");
+//         const body = await response.json();
+//         if (response.status !== 200) {
+//             throw Error(body.message);
+//         }
+//         return body;
+//     };
 
-        if (response.status !== 200) {
-            throw Error(body.message);
-        }
-        return body;
-    };
+//     callBackendAPI = async () => {
+//         const response = await fetch("/express_backend");
+//         const body = await response.json();
 
-    render() {
-        return <div>nice</div>;
-    }
-}
+//         if (response.status !== 200) {
+//             throw Error(body.message);
+//         }
+//         return body;
+//     };
 
-export default App;
+//     render() {
+//         return <div>nice</div>;
+//     }
+// }
+
+// export default App;

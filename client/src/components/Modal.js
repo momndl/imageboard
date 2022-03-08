@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Comments from "./Comments";
 
 export default function Modal(props) {
     const [showComments, setShowComments] = useState(false);
     const [commentCount, setCommentCount] = useState(0);
+    const modalMainRef = useRef(null);
+
+    const modalBgStyle = {
+        height: `${props.modalBgHeight}px`,
+    };
+
     useEffect(() => {
+        window.scrollTo({ top: 150, behavior: "smooth" });
         fetch(`comments/${props.data.id}.json`)
             .then((res) => res.json())
             .then((resComments) => {
@@ -13,14 +20,15 @@ export default function Modal(props) {
             .catch((err) => console.log(err));
     }, [props.data.id]);
 
-    function deleteImage(id) {
-        fetch(`/delete/${id}.json`)
-            .then((res) => res.json())
-            .then((data) => console.log("data after fetch delete", data));
-    }
+    // !! delete function for future use !!
+    // function deleteImage(id) {
+    //     fetch(`/delete/${id}.json`)
+    //         .then((res) => res.json())
+    //         .then((data) => console.log("data after fetch delete", data));
+    // }
     return (
-        <div className="modalBg">
-            <div className="modalMain">
+        <div style={modalBgStyle} className="modalBg">
+            <div ref={modalMainRef} className="modalMain">
                 <span
                     className="closeX"
                     onClick={() => {
@@ -58,12 +66,6 @@ export default function Modal(props) {
                 <p className="modalUsername">
                     <span>{props.data.username} </span> {props.data.posted}
                 </p>
-                {/* <span
-                    onClick={() => deleteImage(props.data.id)}
-                    className="modalDeleteImage"
-                >
-                    Delete
-                </span> */}
                 {showComments ? (
                     <div className="commentWrapper">
                         <button

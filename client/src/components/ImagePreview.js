@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Modal from "./Modal";
 
 export default function ImagePreview(props) {
     const [openModal, setOpenModal] = useState(false);
     const [selectedImg, setSelectedImg] = useState(null);
     const [currentImage, setCurrentImage] = useState(null);
+    const imgPreviewRef = useRef(null);
 
     function modalHandler() {
         setOpenModal(!openModal);
@@ -37,7 +38,7 @@ export default function ImagePreview(props) {
     };
 
     return (
-        <main className="imgPreview">
+        <main ref={imgPreviewRef} className="imgPreview">
             {openModal && (
                 <Modal
                     currentImageHandler={currentImageHandler}
@@ -46,6 +47,7 @@ export default function ImagePreview(props) {
                     data={currentImage}
                     lowestId={props.lowestId}
                     highestId={props.highestId}
+                    modalBgHeight={imgPreviewRef.current.clientHeight}
                 />
             )}
             <div className="imgGrid">
